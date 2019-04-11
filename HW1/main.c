@@ -54,13 +54,19 @@ int main() {
     DDPCONbits.JTAGEN = 0;
 
     TRISAbits.TRISA0 = 0;
-    LATAbits.LATA0 = 0;
+    TRISAbits.TRISA1 = 1;
+    LATAbits.LATA0 = 1;
     // do your TRIS and LAT commands here
-
+    
     __builtin_enable_interrupts();
-
+    
     while(1) {
 	// use _CP0_SET_COUNT(0) and _CP0_GET_COUNT() to test the PIC timing
 	// remember the core timer runs at half the sysclk
+        if(_CP0_GET_COUNT() > 18000){
+            _CP0_SET_COUNT(0);
+            LATAbits.LATA0 = !LATAbits.LATA0;
+        }
+        
     }
 }
