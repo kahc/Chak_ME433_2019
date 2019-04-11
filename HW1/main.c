@@ -53,6 +53,8 @@ int main() {
     // disable JTAG to get pins back
     DDPCONbits.JTAGEN = 0;
 
+    TRISAbits.TRISA0 = 0;
+    LATAbits.LATA0 = 0;
     // do your TRIS and LAT commands here
 
     __builtin_enable_interrupts();
