@@ -36,6 +36,15 @@
 #pragma config FUSBIDIO = 1 // USB pins controlled by USB module
 #pragma config FVBUSONIO = 1 // USB BUSON controlled by USB module
 
+// convenience
+#define true 1
+#define false 0
+
+// name used pins
+#define user_LED LATAbits.LATA0
+#define user_button PORTAbits.RA1
+
+
 
 int main() {
 
@@ -53,21 +62,24 @@ int main() {
     // disable JTAG to get pins back
     DDPCONbits.JTAGEN = 0;
 
+    // setup user_LED
     TRISAbits.TRISA0 = 0;
+    
+    //setup user_button
     TRISAbits.TRISA1 = 1;
     ANSELAbits.ANSA1 = 0;
-    LATAbits.LATA0 = 1;
-    // do your TRIS and LAT commands here
+    
+    user_LED = true;
     
     __builtin_enable_interrupts();
     
     while(1) {
 	// use _CP0_SET_COUNT(0) and _CP0_GET_COUNT() to test the PIC timing
 	// remember the core timer runs at half the sysclk
-        while(PORTAbits.RA1 == 0){;}
+        while(!user_button){;}
         if(_CP0_GET_COUNT() > 12000){
             _CP0_SET_COUNT(0);
-            LATAbits.LATA0 = !LATAbits.LATA0;
+            user_LED = !user_LED;
         }
         
     }
