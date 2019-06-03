@@ -1,5 +1,11 @@
-#include<xc.h>           // processor SFR definitions
-#include<sys/attribs.h>  // __ISR macro
+// contains pragma definitions for the PIC32
+// also contains initializations for user button and LED
+
+#ifndef PIC_CONFIG_H    /* Guard against multiple inclusion */
+#define PIC_CONFIG_H
+
+#include <xc.h>           // processor SFR definitions
+#include <sys/attribs.h>  // __ISR macro
 
 // DEVCFG0
 #pragma config DEBUG = 0b11 // no debugging
@@ -36,51 +42,14 @@
 #pragma config FUSBIDIO = 1 // USB pins controlled by USB module
 #pragma config FVBUSONIO = 1 // USB BUSON controlled by USB module
 
-// convenience
+// define some global constants for convenience
 #define true 1
 #define false 0
 
-// name used pins
+// name user pins
 #define user_LED LATAbits.LATA0
 #define user_button PORTAbits.RA1
 
+void board_config();
 
-
-int main() {
-
-    __builtin_disable_interrupts();
-
-    // set the CP0 CONFIG register to indicate that kseg0 is cacheable (0x3)
-    __builtin_mtc0(_CP0_CONFIG, _CP0_CONFIG_SELECT, 0xa4210583);
-
-    // 0 data RAM access wait states
-    BMXCONbits.BMXWSDRM = 0x0;
-
-    // enable multi vector interrupts
-    INTCONbits.MVEC = 0x1;
-
-    // disable JTAG to get pins back
-    DDPCONbits.JTAGEN = 0;
-
-    // setup user_LED
-    TRISAbits.TRISA0 = 0;
-    
-    //setup user_button
-    TRISAbits.TRISA1 = 1;
-    ANSELAbits.ANSA1 = 0;
-    
-    user_LED = false;
-    
-    __builtin_enable_interrupts();
-    
-    while(1) {
-	// use _CP0_SET_COUNT(0) and _CP0_GET_COUNT() to test the PIC timing
-	// remember the core timer runs at half the sysclk
-        while(!user_button){;}
-        if(_CP0_GET_COUNT() > 12000){
-            _CP0_SET_COUNT(0);
-            user_LED = !user_LED;
-        }
-        
-    }
-}
+#endif
