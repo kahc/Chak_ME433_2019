@@ -1,11 +1,7 @@
-// contains pragma definitions for the PIC32
-// also contains initializations for user button and LED
+// this file contains pragma config lines for organization
 
-#ifndef PIC_CONFIG_H    /* Guard against multiple inclusion */
-#define PIC_CONFIG_H
-
-#include <xc.h>           // processor SFR definitions
-#include <sys/attribs.h>  // __ISR macro
+#ifndef CONFIG_BITS_H    /* Guard against multiple inclusion */
+#define CONFIG_BITS_H
 
 // DEVCFG0
 #pragma config DEBUG = 0b11 // no debugging
@@ -41,15 +37,5 @@
 #pragma config IOL1WAY = 0 // allow multiple reconfigurations
 #pragma config FUSBIDIO = 1 // USB pins controlled by USB module
 #pragma config FVBUSONIO = 1 // USB BUSON controlled by USB module
-
-// define some global constants for convenience
-#define true 1
-#define false 0
-
-// name user pins
-#define user_LED LATAbits.LATA0
-#define user_button PORTAbits.RA1
-
-void board_config();
 
 #endif

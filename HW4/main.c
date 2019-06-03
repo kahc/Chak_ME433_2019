@@ -1,7 +1,8 @@
-#include "PIC_config.c"
+#include "PIC_config.h"
+#include "config_bits.h"
 
 int main(){
-    board_config();
+    board_setup();
     while(1) {
 	// use _CP0_SET_COUNT(0) and _CP0_GET_COUNT() to test the PIC timing
 	// remember the core timer runs at half the sysclk

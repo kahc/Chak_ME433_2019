@@ -1,6 +1,6 @@
 #include "PIC_config.h"
 
-void board_config(){
+void board_setup(){
     __builtin_disable_interrupts();
 
     // set the CP0 CONFIG register to indicate that kseg0 is cacheable (0x3)
