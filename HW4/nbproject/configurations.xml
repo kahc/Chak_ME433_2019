@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>PIC_config.h</itemPath>
       <itemPath>config_bits.h</itemPath>
+      <itemPath>spi_dac.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -16,6 +17,7 @@
                    projectFiles="true">
       <itemPath>main.c</itemPath>
       <itemPath>PIC_config.c</itemPath>
+      <itemPath>spi_dac.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

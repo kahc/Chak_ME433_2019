@@ -1,5 +1,6 @@
 #include "PIC_config.h"
 #include "config_bits.h"
+#include "spi_dac.h"
 
 int main(){
     board_setup();

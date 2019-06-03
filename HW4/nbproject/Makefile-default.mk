@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c PIC_config.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c PIC_config.c spi_dac.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/PIC_config.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/PIC_config.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/PIC_config.o ${OBJECTDIR}/spi_dac.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/PIC_config.o.d ${OBJECTDIR}/spi_dac.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/PIC_config.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/PIC_config.o ${OBJECTDIR}/spi_dac.o
 
 # Source Files
-SOURCEFILES=main.c PIC_config.c
+SOURCEFILES=main.c PIC_config.c spi_dac.c
 
 
 CFLAGS=
@@ -118,6 +118,12 @@ ${OBJECTDIR}/PIC_config.o: PIC_config.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/PIC_config.o 
 	@${FIXDEPS} "${OBJECTDIR}/PIC_config.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/PIC_config.o.d" -o ${OBJECTDIR}/PIC_config.o PIC_config.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/spi_dac.o: spi_dac.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/spi_dac.o.d 
+	@${RM} ${OBJECTDIR}/spi_dac.o 
+	@${FIXDEPS} "${OBJECTDIR}/spi_dac.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/spi_dac.o.d" -o ${OBJECTDIR}/spi_dac.o spi_dac.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -130,6 +136,12 @@ ${OBJECTDIR}/PIC_config.o: PIC_config.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/PIC_config.o.d 
 	@${RM} ${OBJECTDIR}/PIC_config.o 
 	@${FIXDEPS} "${OBJECTDIR}/PIC_config.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/PIC_config.o.d" -o ${OBJECTDIR}/PIC_config.o PIC_config.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/spi_dac.o: spi_dac.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/spi_dac.o.d 
+	@${RM} ${OBJECTDIR}/spi_dac.o 
+	@${FIXDEPS} "${OBJECTDIR}/spi_dac.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/spi_dac.o.d" -o ${OBJECTDIR}/spi_dac.o spi_dac.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
 endif
 
