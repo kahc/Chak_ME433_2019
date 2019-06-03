@@ -18719,7 +18719,7 @@ This footprint was designed to help hold the alignment of a through-hole compone
 <part name="GND9" library="mechE433" deviceset="GND" device=""/>
 <part name="GND10" library="mechE433" deviceset="GND" device=""/>
 <part name="+3V6" library="mechE433" deviceset="+3V3" device=""/>
-<part name="U$6" library="mechE433" deviceset="SWITCH_BTN_NO" device=""/>
+<part name="U$6" library="mechE433" deviceset="SWITCH_BTN_NO" device="" value="RESET"/>
 <part name="GND11" library="mechE433" deviceset="GND" device=""/>
 <part name="P+1" library="mechE433" deviceset="+5V" device=""/>
 <part name="GND12" library="mechE433" deviceset="GND" device=""/>
@@ -18731,7 +18731,7 @@ This footprint was designed to help hold the alignment of a through-hole compone
 <part name="GND17" library="mechE433" deviceset="GND" device=""/>
 <part name="C7" library="mechE433" deviceset="C-US" device="025-025X050" package3d_urn="urn:adsk.eagle:package:23629/2" value=".1uF"/>
 <part name="GND18" library="mechE433" deviceset="GND" device=""/>
-<part name="U$2" library="mechE433" deviceset="SWITCH_BTN_NO" device=""/>
+<part name="U$2" library="mechE433" deviceset="SWITCH_BTN_NO" device="" value="USER"/>
 <part name="GND19" library="mechE433" deviceset="GND" device=""/>
 <part name="+3V8" library="mechE433" deviceset="+3V3" device=""/>
 <part name="R4" library="mechE433" deviceset="R-US_" device="0207/10" package3d_urn="urn:adsk.eagle:package:23491/2" value="10K"/>

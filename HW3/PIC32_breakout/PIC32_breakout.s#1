@@ -275,8 +275,6 @@ package type TQ</description>
 <pad name="P$9" x="-3.5" y="-2.7" drill="1.15" diameter="1.55"/>
 <smd name="P$10" x="-1" y="-2.7" dx="1.5" dy="1.5" layer="1"/>
 <smd name="P$11" x="1" y="-2.7" dx="1.5" dy="1.5" layer="1"/>
-<smd name="P$12" x="-3.05" y="-2.7" dx="1.5" dy="1.5" layer="1"/>
-<smd name="P$13" x="3.05" y="-2.7" dx="1.5" dy="1.5" layer="1"/>
 <wire x1="-5" y1="1" x2="-5" y2="-7" width="0.127" layer="21"/>
 <wire x1="-5" y1="-7" x2="5" y2="-7" width="0.127" layer="21"/>
 <wire x1="5" y1="-7" x2="5" y2="1" width="0.127" layer="21"/>
