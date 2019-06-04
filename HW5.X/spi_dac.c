@@ -5,15 +5,15 @@
 void init_SPI1(){
     SPI1CON = 0;              // turn off the spi module and reset it
     
-    // setup cs pin to B3, initially high
-    TRISBbits.TRISB3 = 0;
+    // setup cs pin to A4, initially high
+    TRISAbits.TRISA4 = 0;
     dac_cs = 1;
     
-    // setup sdi pin to B5
-    SDI1Rbits.SDI1R = 0b0001;
+    // don't setup sdi pin until we need it
+    //SDI1Rbits.SDI1R = 0b0001;
     
-    // setup sdo pin to B2
-    RPB2Rbits.RPB2R = 0b0011;
+    // setup sdo pin to B5
+    RPB5Rbits.RPB5R = 0b0011;
     
     SPI1BUF;                  // clear the rx buffer by reading from it
     SPI1BRG = 1;            // fastest baud rate possible

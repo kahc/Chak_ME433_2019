@@ -6,7 +6,7 @@
 #include <xc.h>
 
 // pin definitions
-#define dac_cs LATBbits.LATB3
+#define dac_cs LATAbits.LATA4
 
 // function declarations
 void init_SPI1();
