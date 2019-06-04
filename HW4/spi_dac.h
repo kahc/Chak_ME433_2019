@@ -6,11 +6,11 @@
 #include <xc.h>
 
 // pin definitions
-#define dac_cs LATBbits.LATB0
+#define dac_cs LATBbits.LATB3
 
 // function declarations
 void init_SPI1();
-char SPI1_IO(char write);
-void setVoltage(char channel, int voltage);
+char SPI1_IO(unsigned char write);
+void setVoltage(char channel, unsigned int voltage);
 
 #endif

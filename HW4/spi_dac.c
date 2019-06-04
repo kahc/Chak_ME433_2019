@@ -5,22 +5,41 @@
 void init_SPI1(){
     SPI1CON = 0;              // turn off the spi module and reset it
     
-    // setup cs pin to B0
-    TRISBbits.TRISB0 = 0;
+    // setup cs pin to B3, initially high
+    TRISBbits.TRISB3 = 0;
+    dac_cs = 1;
     
-    // setup sdi pin to B1
-    SDI1Rbits.SDI1R = 0b0010;
+    // setup sdi pin to B5
+    SDI1Rbits.SDI1R = 0b0001;
     
-    // setup sdo pin to A2
-    RPA2Rbits.RPA2R = 0b0011;
+    // setup sdo pin to B2
+    RPB2Rbits.RPB2R = 0b0011;
     
+    SPI1BUF;                  // clear the rx buffer by reading from it
+    SPI1BRG = 1;            // fastest baud rate possible
+    SPI1STATbits.SPIROV = 0;  // clear the overflow bit
+    SPI1CONbits.CKE = 1;      // data changes when clock goes from hi to lo (since CKP is 0)
+    SPI1CONbits.MSTEN = 1;    // master operation
+    SPI1CONbits.ON = 1;       // turn on spi 1
     
 }
 
-char SPI1_IO(char write){
-    
+unsigned char spi_io(unsigned char write) {
+  SPI1BUF = write;
+  while(!SPI1STATbits.SPIRBF) { // wait to receive the byte
+    ;
+  }
+  return SPI1BUF;
 }
 
-void setVoltage(char channel, int voltage){
+void setVoltage(char channel, unsigned int voltage){
+    unsigned short command = 0;
+    command = channel << 15;    // move channel information to the front
+    command = command | 0b0111000000000000;    // default settings
+    command = command | (voltage&0x0FFF);        // voltage information
     
+    dac_cs = 0;
+    spi_io(command >> 8);
+    spi_io(command & 0x00FF);
+    dac_cs = 1;
 }
