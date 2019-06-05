@@ -19,9 +19,9 @@ void board_setup(){
     TRISAbits.TRISA0 = 0;
     
     //setup user_button
-    TRISAbits.TRISA1 = 1;
-    ANSELAbits.ANSA1 = 0;
-    user_LED = false;
+    //TRISAbits.TRISA1 = 1;
+    //ANSELAbits.ANSA1 = 0;
+    //user_LED = false;
     
     // turning off all analog inputs because the default is silly
     ANSELA = 0;
