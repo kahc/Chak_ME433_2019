@@ -21,6 +21,7 @@ int main(){
                 user_LED = !user_LED;
             }
             LCD_drawChar(100,100, ILI9341_RED, 'A');
+            LCD_drawLine(10,10, 200, 75, ILI9341_PURPLE);
         }
     }
     

@@ -1,5 +1,6 @@
 #include <xc.h>
 #include "ili9341.h"
+#include <math.h>
 
 void LCD_drawChar (unsigned short x, unsigned short y, unsigned short color, char c){
     // only do something if within bounds
@@ -18,6 +19,15 @@ void LCD_drawChar (unsigned short x, unsigned short y, unsigned short color, cha
             }
         }
     }
+}
+
+void LCD_drawLine (unsigned short x1, unsigned short y1, unsigned short x2, unsigned short y2, unsigned short color){
+    float longer_length = max(abs(x1-x2), abs(y1-y2));
+    int i;
+    for(i = 0; i<longer_length; i++){
+        LCD_drawPixel(x1+(int)(x2* i/longer_length), y1+(int)(y2* i/longer_length), color);
+    }
+    LCD_drawPixel(x2,y2,color);
 }
 
 void LCD_init() {

@@ -208,5 +208,6 @@ void LCD_setAddr(unsigned short x, unsigned short y, unsigned short w, unsigned 
 void LCD_drawPixel(unsigned short x, unsigned short y, unsigned short color);
 void LCD_clearScreen(unsigned short color);
 void LCD_drawChar (unsigned short x, unsigned short y, unsigned short color, char c);
+void LCD_drawLine (unsigned short x1, unsigned short y1, unsigned short x2, unsigned short y2, unsigned short color);
 
 #endif
