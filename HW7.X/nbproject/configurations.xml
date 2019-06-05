@@ -7,6 +7,7 @@
       <itemPath>PIC_config.h</itemPath>
       <itemPath>config_bits.h</itemPath>
       <itemPath>ili9341.h</itemPath>
+      <itemPath>i2c_accelerometer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -18,6 +19,8 @@
       <itemPath>main.c</itemPath>
       <itemPath>PIC_config.c</itemPath>
       <itemPath>ili9341.c</itemPath>
+      <itemPath>i2c_master_noint.c</itemPath>
+      <itemPath>i2c_accelerometer.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
