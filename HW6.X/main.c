@@ -7,7 +7,6 @@ int main(){
     SPI1_init();
     LCD_init();
     LCD_clearScreen(ILI9341_GREEN);
-    LCD_drawPixel(100,100, ILI9341_RED);
     
     int heartbeat_count = 0;
     
@@ -21,6 +20,7 @@ int main(){
                 heartbeat_count = 0;
                 user_LED = !user_LED;
             }
+            LCD_drawChar(100,100, ILI9341_RED, 'A');
         }
     }
     

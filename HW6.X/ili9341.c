@@ -1,6 +1,25 @@
 #include <xc.h>
 #include "ili9341.h"
 
+void LCD_drawChar (unsigned short x, unsigned short y, unsigned short color, char c){
+    // only do something if within bounds
+    if(!(x > 235 || y > 312)){
+        int char_x, char_y;
+        
+        for(char_x = 0; char_x < 5; char_x++){
+            for(char_y = 0; char_y < 8; char_y++){
+                if(((ASCII[c-0x20][char_x] >> char_y) & 0x01) == 1){
+                    LCD_drawPixel(x + char_x, y + char_y, color);
+                }
+                // if not supposed to be colored, clear pixel just in case
+                else{
+                    LCD_drawPixel(x + char_x, y + char_y, ILI9341_GREEN);
+                }
+            }
+        }
+    }
+}
+
 void LCD_init() {
     int time = 0;
     
