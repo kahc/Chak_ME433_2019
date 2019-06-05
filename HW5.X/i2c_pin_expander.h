@@ -10,8 +10,8 @@
 
 // function declarations
 void init_expander();
-void set_io_direction_expander(char pin, char direction);
-void set_expander(char pin, char level);
-char getExpander();
+void set_io_direction_expander(unsigned char pin, unsigned char direction);
+void set_expander(unsigned char pin, unsigned char level);
+unsigned char get_expander();
 
 #endif

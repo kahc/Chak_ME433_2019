@@ -12,7 +12,7 @@ void init_expander(){
     local_IODIR = 0xFF;
 }
 
-void set_io_direction_expander(char pin, char direction){
+void set_io_direction_expander(unsigned char pin, unsigned char direction){
     // edit local copy
     if(direction == 1){
         local_IODIR = local_IODIR | (1 << pin);
@@ -29,7 +29,7 @@ void set_io_direction_expander(char pin, char direction){
     i2c_master_stop();
 }
 
-void set_expander(char pin, char level){
+void set_expander(unsigned char pin, unsigned char level){
     // edit local copy
     if(level == 1){
         local_GPIO = local_GPIO | (0x1 << pin);
@@ -46,7 +46,7 @@ void set_expander(char pin, char level){
     i2c_master_stop();
 }
 
-char get_expander(){
+unsigned char get_expander(){
     // move to correct register
     i2c_master_start();
     i2c_master_send(expander_address << 1 | 0);
