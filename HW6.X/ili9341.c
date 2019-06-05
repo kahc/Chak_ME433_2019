@@ -21,13 +21,14 @@ void LCD_drawChar (unsigned short x, unsigned short y, unsigned short color, cha
     }
 }
 
-void LCD_drawLine (unsigned short x1, unsigned short y1, unsigned short x2, unsigned short y2, unsigned short color){
-    float longer_length = max(abs(x1-x2), abs(y1-y2));
+void LCD_drawLine (unsigned short x1, unsigned short x2, unsigned short y1, unsigned short y2, unsigned short color){
+    float x_length = x1-x2;
+    float y_length = y1-y2;
+    float longer_length = max(abs(x_length), abs(y_length));
     int i;
     for(i = 0; i<longer_length; i++){
-        LCD_drawPixel(x1+(int)(x2* i/longer_length), y1+(int)(y2* i/longer_length), color);
+        LCD_drawPixel(x1+(int)(x_length* i/longer_length), y1+(int)(y_length* i/longer_length), color);
     }
-    LCD_drawPixel(x2,y2,color);
 }
 
 void LCD_init() {

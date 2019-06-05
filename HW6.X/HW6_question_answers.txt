@@ -1,0 +1,4 @@
+The screen is 240x320. Each character is 5x8. You can fit 48x40 = 1920 characters on the screen.
+
+I am drawing 26 characters (plus a line) at 16.7fps.
+Ignoring the line (26 characters is more than 10 pixels), it would take 4.42 to fill the screen with characters.
