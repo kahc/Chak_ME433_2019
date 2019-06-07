@@ -2,7 +2,14 @@
 #include "i2c_master_noint.h"
 
 // define addresses
-#define accelerometer_address 0b0100000      // expander i2c address
+#define accelerometer_address 0b1101010      // address, pull SDO low
+#define reg_WHO_AM_I 0x0F       // equal to 0b01101001
+#define reg_CTRL1_XL 0x10
+#define reg_CTRL2_G 0x11
+#define reg_CTRL3_C 0x12
+#define reg_OUT_TEMP_L 0x20     // beginning of all 14 datapoints
+#define reg_OUTX_L_G 0x22       // beginning of gyroscope
+#define reg_OUTX_L_XL 0x28      // beginning of accelerometer
 
 void init_accelerometer(){
     i2c_master_setup();
