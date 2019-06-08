@@ -42,10 +42,12 @@ void LCD_drawLine (unsigned short x1, unsigned short x2, unsigned short y1, unsi
 void LCD_drawRectangle (unsigned short x1, unsigned short x2, unsigned short y1, unsigned short y2, unsigned short color){
     int x_length = x2-x1;
     int y_length = y2-y1;
-    int i, j;
-    for(i=0; i<x_length; i++){
-        for(j=0; j<y_length; j++){
-            LCD_drawPixel(x1+i, y1+j, color);
+    int i, j, sign_x, sign_y;
+    sign_x = (x2-x1 > 0) ? 1 : -1;
+    sign_y = (y2-y1 > 0) ? 1 : -1;
+    for(i=0; i<abs(x_length); i++){
+        for(j=0; j<abs(y_length); j++){
+            LCD_drawPixel(x1+i*sign_x, y1+j*sign_y, color);
         }
     }
 }
