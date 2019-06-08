@@ -8,6 +8,7 @@
       <itemPath>config_bits.h</itemPath>
       <itemPath>ili9341.h</itemPath>
       <itemPath>i2c_accelerometer.h</itemPath>
+      <itemPath>i2c_master_noint.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

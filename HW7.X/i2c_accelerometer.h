@@ -5,8 +5,8 @@
 
 // function declarations
 void init_accelerometer();
-void write_accelerometer(unsigned char reg, char level);
+void write_accelerometer(unsigned char reg, unsigned char level);
 unsigned char read_accelerometer(unsigned char reg);
-void I2C_read_multiple(unsigned char address, unsigned char reg, unsigned char * data, int length);
+void I2C_read_multiple(unsigned char reg, unsigned char * data, int length);
 
 #endif

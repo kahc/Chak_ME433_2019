@@ -10,7 +10,7 @@ int main(){
     
     LCD_clearScreen(ILI9341_GREEN);
     LCD_drawRectangle(30, 150, 50, 175, ILI9341_PURPLE);
-    
+    LCD_drawWord(50, 100, ILI9341_RED, "testing");
     int heartbeat_count = 0;
     
     while(true){
@@ -19,7 +19,7 @@ int main(){
             _CP0_SET_COUNT(0);
             
             heartbeat_count++;
-            if(heartbeat_count > 500){
+            if(heartbeat_count > 10){
                 heartbeat_count = 0;
                 user_LED = !user_LED;
             }

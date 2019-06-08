@@ -2,6 +2,14 @@
 #include "ili9341.h"
 #include <math.h>
 
+void LCD_drawWord (unsigned short x, unsigned short y, unsigned short color, char * word){
+    int i = 0;
+    while(word[i]){
+        LCD_drawChar(x + 5*i, y, color, word[i]);
+        i++;
+    }
+}
+
 void LCD_drawChar (unsigned short x, unsigned short y, unsigned short color, char c){
     // only do something if within bounds
     if(!(x > 235 || y > 312)){

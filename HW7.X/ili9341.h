@@ -210,5 +210,6 @@ void LCD_clearScreen(unsigned short color);
 void LCD_drawChar (unsigned short x, unsigned short y, unsigned short color, char c);
 void LCD_drawLine (unsigned short x1, unsigned short y1, unsigned short x2, unsigned short y2, unsigned short color);
 void LCD_drawRectangle (unsigned short x1, unsigned short x2, unsigned short y1, unsigned short y2, unsigned short color);
+void LCD_drawWord (unsigned short x, unsigned short y, unsigned short color, char * word);
 
 #endif
