@@ -32,8 +32,8 @@ int main(){
             
             
             // scale IMU data to fit screen, and to adjust sensitivity
-            bar_x = -IMU_data[4]/90;
-            bar_y = -IMU_data[5]/70;
+            bar_x = IMU_data[4]/90;
+            bar_y = IMU_data[5]/70;
             bar_x = min(120, bar_x);
             bar_x = max(-120, bar_x);
             bar_y = min(160, bar_y);

@@ -290,7 +290,9 @@ void LCD_setAddr(unsigned short x, unsigned short y, unsigned short w, unsigned 
 }
 
 void LCD_drawPixel(unsigned short x, unsigned short y, unsigned short color) {
-  // check boundary
+    if(x<0 | x>240 | y<0 | y>320){
+        return;
+    }
     
     CS = 0; // CS
     
