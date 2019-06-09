@@ -62,6 +62,13 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #define user_LED LATAbits.LATA0
 #define user_button PORTAbits.RA1
 
+char IMU_raw_data[14];
+signed short IMU_data[7];
+char message[20];
+int bar_x, bar_y;
+
+int heartbeat_count;
+
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 

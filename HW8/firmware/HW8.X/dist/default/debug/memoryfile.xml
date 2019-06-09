@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<project>                                  
+  <executable name="dist/default/debug/HW8.X.debug.elf">                 
+    <memory name="program">                 
+      <units>bytes</units>                 
+      <length>132240</length>                 
+      <used>6624</used>                     
+      <free>125616</free>                     
+    </memory>                              
+    <memory name="data">              
+      <units>bytes</units>                 
+      <length>33280</length>                 
+      <used>1112</used>                     
+      <free>32168</free>                     
+    </memory>                              
+  </executable>                            
+</project>                                 

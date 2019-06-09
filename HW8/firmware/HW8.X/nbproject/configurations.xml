@@ -1005,6 +1005,9 @@
           </logicalFolder>
         </logicalFolder>
         <itemPath>../src/app.h</itemPath>
+        <itemPath>../src/i2c_IMU.h</itemPath>
+        <itemPath>../src/i2c_master_noint.h</itemPath>
+        <itemPath>../src/ili9341.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -1053,6 +1056,9 @@
         </logicalFolder>
         <itemPath>../src/app.c</itemPath>
         <itemPath>../src/main.c</itemPath>
+        <itemPath>../src/i2c_IMU.c</itemPath>
+        <itemPath>../src/i2c_master_noint.c</itemPath>
+        <itemPath>../src/ili9341.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
