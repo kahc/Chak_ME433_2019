@@ -2,6 +2,61 @@
 #include "ili9341.h"
 #include <math.h>
 
+// addresses for touchscreen
+#define x_position_address 0b001
+#define y_position_address 0b011
+#define z1_address 0b100
+#define z2_address 0b101
+#define command_byte 0b10000001
+
+void touchscreen_read(unsigned short *x, unsigned short *y, unsigned int *z){
+    unsigned char x1, x2, y1, y2, z11, z12, z21, z22;
+    
+    XPT_CS = 0;
+    spi_io(command_byte | (x_position_address <<4));
+    XPT_CS = 1;
+    XPT_CS = 0;
+    x1 = spi_io(0x00);
+    XPT_CS = 1;
+    XPT_CS = 0;
+    x2 = spi_io(0x00);
+    XPT_CS = 1;
+    
+    XPT_CS = 0;
+    spi_io(command_byte | (y_position_address <<4));
+    XPT_CS = 1;
+    XPT_CS = 0;
+    y1 = spi_io(0x00);
+    XPT_CS = 1;
+    XPT_CS = 0;
+    y2 = spi_io(0x00);
+    XPT_CS = 1;
+    
+    XPT_CS = 0;
+    spi_io(command_byte | (z1_address <<4));
+    XPT_CS = 1;
+    XPT_CS = 0;
+    z11 = spi_io(0x00);
+    XPT_CS = 1;
+    XPT_CS = 0;
+    z12 = spi_io(0x00);
+    XPT_CS = 1;
+    
+    XPT_CS = 0;
+    spi_io(command_byte | (z2_address <<4));
+    XPT_CS = 1;
+    XPT_CS = 0;
+    z21 = spi_io(0x00);
+    XPT_CS = 1;
+    XPT_CS = 0;
+    z22 = spi_io(0x00);
+    XPT_CS = 1;
+    
+    *x = (x1<<5) | (x2>>3);
+    *y = (y1<<5) | (y2>>3);
+    *z = ((z11<<5)|(z12>>3)) - ((z21<<5)|(z22>>3)) + 4095;
+}
+
 void LCD_drawWord (unsigned short x, unsigned short y, unsigned short color, char * word){
     int i = 0;
     while(word[i]){
@@ -245,9 +300,13 @@ void SPI1_init() {
   TRISBbits.TRISB15 = 0;
   DC = 1;
   
+  // touchscreen CS is B8
+  TRISBbits.TRISB8 = 0;
+  XPT_CS = 1;
+  
   SPI1CON = 0; // turn off the spi module and reset it
   SPI1BUF; // clear the rx buffer by reading from it
-  SPI1BRG = 0; // baud rate to 12 MHz [SPI1BRG = (48000000/(2*desired))-1]
+  SPI1BRG = 3; // baud rate to 12 MHz [SPI1BRG = (48000000/(2*desired))-1]
   SPI1STATbits.SPIROV = 0; // clear the overflow bit
   SPI1CONbits.CKE = 1; // data changes when clock goes from hi to lo (since CKP is 0)
   SPI1CONbits.MSTEN = 1; // master operation

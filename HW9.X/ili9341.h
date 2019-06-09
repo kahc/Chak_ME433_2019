@@ -196,6 +196,7 @@ static const char ASCII[96][5] = {
 // spi pins
 #define CS LATBbits.LATB7
 #define DC LATBbits.LATB15
+#define XPT_CS LATBbits.LATB8
 
 // functions
 void LCD_init();
@@ -211,5 +212,6 @@ void LCD_drawChar (unsigned short x, unsigned short y, unsigned short color, cha
 void LCD_drawLine (unsigned short x1, unsigned short y1, unsigned short x2, unsigned short y2, unsigned short color);
 void LCD_drawRectangle (unsigned short x1, unsigned short x2, unsigned short y1, unsigned short y2, unsigned short color);
 void LCD_drawWord (unsigned short x, unsigned short y, unsigned short color, char * word);
+void touchscreen_read(unsigned short *x, unsigned short *y, unsigned int *z);
 
 #endif
