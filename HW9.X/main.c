@@ -12,15 +12,15 @@ int main(){
     
     LCD_clearScreen(ILI9341_GREEN); 
     
-    short touch_x, touch_y;
-    int touch_z;
+    unsigned short touch_x, touch_y;
+    unsigned int touch_z;
     char message[40];
   
     int heartbeat_count = 0;
     
     while(true){
-        // 10Hz cycles
-        if(_CP0_GET_COUNT() > 2400000){
+        // 5Hz cycles
+        if(_CP0_GET_COUNT() > 1200000){
             _CP0_SET_COUNT(0);
             
             touchscreen_read(&touch_x, &touch_y, &touch_z);
@@ -32,7 +32,6 @@ int main(){
             if(heartbeat_count > 5){
                 heartbeat_count = 0;
                 user_LED = !user_LED;
-                LCD_clearScreen(ILI9341_GREEN); 
             }
         }
     }
