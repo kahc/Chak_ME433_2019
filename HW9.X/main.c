@@ -19,6 +19,7 @@ int main(){
     char coordinates[20];
     char counter_message[10];
     int counter = 0;
+    int counter_change = 0;
   
     int heartbeat_count = 0;
     
@@ -36,22 +37,28 @@ int main(){
             LCD_drawWord(5, 50, ILI9341_RED, message);
             sprintf(coordinates, "touch_x: %d, touch_y: %d      ", touch_x, touch_y);
             LCD_drawWord(5, 60, ILI9341_RED, coordinates);
-            sprintf(counter_message, "%d", counter);
-            LCD_drawWord(117, 160, ILI9341_NAVY, counter_message);
+            sprintf(counter_message, "%d    ", counter);
+            LCD_drawWord(115, 160, ILI9341_NAVY, counter_message);
             
-            LCD_drawRectangle(115, 125, 145, 155, ILI9341_PURPLE);
-            LCD_drawRectangle(115, 125, 175, 185, ILI9341_PURPLE);
-            LCD_drawRectangle(120, 120, 143, 152, ILI9341_BLACK);
-            LCD_drawRectangle(118, 122, 150, 150, ILI9341_BLACK);
-            LCD_drawRectangle(118, 122, 180, 180, ILI9341_BLACK);
+            LCD_drawRectangle(115, 126, 145, 156, ILI9341_PURPLE);
+            LCD_drawRectangle(115, 126, 175, 186, ILI9341_PURPLE);
+            LCD_drawRectangle(120, 121, 147, 154, ILI9341_BLACK);
+            LCD_drawRectangle(117, 124, 149, 150, ILI9341_BLACK);
+            LCD_drawRectangle(117, 124, 179, 180, ILI9341_BLACK);
             
+            // when pressed, change is buffered into counter_change
             if(touch_z > 500){
-                if(abs(touch_x - 120) < 5 | abs(touch_y - 150) < 5){
-                    counter++;
+                if(abs(touch_x - 120) < 7 & abs(touch_y - 150) < 7){
+                    counter_change = 1;
                 }
-                if(abs(touch_x - 120) < 5 | abs(touch_y - 180) < 5){
-                    counter--;
+                if(abs(touch_x - 120) < 7 & abs(touch_y - 180) < 7){
+                    counter_change = -1;
                 }
+            }
+            // if not pressed, do counter_change and then clear it
+            else{
+                counter = counter + counter_change;
+                counter_change = 0;
             }
             
             heartbeat_count++;
