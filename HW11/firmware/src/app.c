@@ -458,8 +458,7 @@ void APP_Tasks(void) {
                 for(i = 0; i<7; i++){
                     IMU_data[i] = (IMU_raw_data[2*i+1] << 8) | IMU_raw_data[2*i];
                 }
-                len = sprintf(dataOut, "%d %d %d %d %d %d %d\r\n", data_counter,
-                        IMU_data[1], IMU_data[2], IMU_data[3], IMU_data[4], IMU_data[5], IMU_data[6]);
+                len = sprintf(dataOut, "%d, %d\r\n", data_counter, IMU_data[3]);
                 USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
                         &appData.writeTransferHandle, dataOut, len,
                         USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
