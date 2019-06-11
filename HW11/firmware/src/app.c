@@ -50,6 +50,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include <stdio.h>
 #include <xc.h>
 #include "i2c_IMU.h"
+#include <string.h>
 
 // *****************************************************************************
 // *****************************************************************************
@@ -66,11 +67,16 @@ signed short IMU_data[7];
 int gathering_data = 0;
 int data_counter = 0;
 signed short MAF;
-signed short MAF_buffer[4] = {0, 0, 0, 0};
+signed short MAF_buffer[6] = {0};
 int MAF_counter = 0;
 signed short IIR;
-int IIR_A = .5;
-int IIR_B = .5;
+signed short IIR_previous = 0;
+float IIR_A = .5;
+float IIR_B = .5;
+signed short FIR;
+float FIR_weights[6] = {.0264, .1405, .3331, .3331, .1405, .0264};
+float FIR_buffer[6] = {0};
+
 
 
 // *****************************************************************************
@@ -410,7 +416,6 @@ void APP_Tasks(void) {
                         THAT WAS SENT FROM THE COMPUTER */
                 if(appData.readBuffer[0] == 'r'){
                     gathering_data = 1;
-                    MAF_buffer[4] = {0, 0, 0, 0};
                 }
                         /* YOU COULD PUT AN IF STATEMENT HERE TO DETERMINE WHICH LETTER
                         WAS RECEIVED (USUALLY IT IS THE NULL CHARACTER BECAUSE NOTHING WAS
@@ -468,16 +473,33 @@ void APP_Tasks(void) {
                 
                 // MAF filter
                 MAF_buffer[MAF_counter] = IMU_data[3];
+                MAF = (MAF_buffer[0]+MAF_buffer[1]+MAF_buffer[2]+MAF_buffer[3]
+                        +MAF_buffer[4]+MAF_buffer[5])/6;
                 MAF_counter++;
-                if(MAF_counter>3){
+                if(MAF_counter>5){
                     MAF_counter = 0;
                 }
-                MAF = (MAF_buffer[0]+MAF_buffer[1]+MAF_buffer[2]+MAF_buffer[3])/4;
                 
-                // 
                 
-                // formatting as csv file
-                len = sprintf(dataOut, "%d %d %d\r\n", data_counter, IMU_data[3], MAF);
+                // IIR filter
+                IIR = IIR_A * IIR_previous + IIR_B * IMU_data[3];
+                IIR_previous = IIR;
+                
+                // FIR filter. first, update previous values in buffer. Then calculate FIR
+                FIR = 0;
+                int j;
+                for(j=0; j<5; j++){
+                    FIR_buffer[j] = FIR_buffer[j+1];
+                }
+                FIR_buffer[5] = IMU_data[3];
+                int k;
+                for(k=0; k<6; k++){
+                    FIR = FIR_buffer[k]*FIR_weights[k] + FIR;
+                }
+                
+                
+                // send information to Matlab
+                len = sprintf(dataOut, "%d %d %d %d %d\r\n", data_counter, IMU_data[3], MAF, IIR, FIR);
                 USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
                         &appData.writeTransferHandle, dataOut, len,
                         USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
@@ -489,7 +511,7 @@ void APP_Tasks(void) {
             }
             else{
                 USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
-                        &appData.writeTransferHandle, "", 1,
+                        &appData.writeTransferHandle, " ", 1,
                         USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
             }
             
