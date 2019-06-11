@@ -192,4 +192,5 @@ build/default/production/_ext/1360937237/app.o:  \
  ../src/system_config/default/framework/usb/usb_device_cdc.h  \
  ../src/system_config/default/framework/usb/src/usb_device_function_driver.h  \
  ../src/system_config/default/framework/usb/usb_cdc.h  \
-../src/app.h 
+../src/app.h  \
+ ../src/i2c_IMU.h 

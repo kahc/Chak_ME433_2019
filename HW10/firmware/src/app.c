@@ -49,6 +49,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "app.h"
 #include <stdio.h>
 #include <xc.h>
+#include "i2c_IMU.h"
 
 // *****************************************************************************
 // *****************************************************************************
@@ -60,6 +61,11 @@ uint8_t APP_MAKE_BUFFER_DMA_READY dataOut[APP_READ_BUFFER_SIZE];
 uint8_t APP_MAKE_BUFFER_DMA_READY readBuffer[APP_READ_BUFFER_SIZE];
 int len, i = 0;
 int startTime = 0; // to remember the loop time
+char IMU_raw_data[14];
+signed short IMU_data[7];
+int gathering_data = 0;
+int data_counter = 0;
+signed short data_points[7][100];
 
 // *****************************************************************************
 /* Application Data
@@ -329,6 +335,9 @@ void APP_Initialize(void) {
     appData.readBuffer = &readBuffer[0];
 
     /* PUT YOUR LCD, IMU, AND PIN INITIALIZATIONS HERE */
+    init_IMU();
+    ANSELA = 0;
+    ANSELB = 0;
 
     startTime = _CP0_GET_COUNT();
 }
@@ -391,6 +400,9 @@ void APP_Tasks(void) {
 
                         /* AT THIS POINT, appData.readBuffer[0] CONTAINS A LETTER
                         THAT WAS SENT FROM THE COMPUTER */
+                if(appData.readBuffer[0] = 'r'){
+                    gathering_data = 1;
+                }
                         /* YOU COULD PUT AN IF STATEMENT HERE TO DETERMINE WHICH LETTER
                         WAS RECEIVED (USUALLY IT IS THE NULL CHARACTER BECAUSE NOTHING WAS
                       TYPED) */
@@ -414,7 +426,7 @@ void APP_Tasks(void) {
              * The isReadComplete flag gets updated in the CDC event handler. */
 
              /* WAIT FOR 5HZ TO PASS OR UNTIL A LETTER IS RECEIVED */
-            if (appData.isReadComplete || _CP0_GET_COUNT() - startTime > (48000000 / 2 / 5)) {
+            if (appData.isReadComplete || _CP0_GET_COUNT() - startTime > (48000000 / 2 / 100)) {
                 appData.state = APP_STATE_SCHEDULE_WRITE;
             }
 
@@ -436,22 +448,44 @@ void APP_Tasks(void) {
 
             /* PUT THE TEXT YOU WANT TO SEND TO THE COMPUTER IN dataOut
             AND REMEMBER THE NUMBER OF CHARACTERS IN len */
-            /* THIS IS WHERE YOU CAN READ YOUR IMU, PRINT TO THE LCD, ETC */
-            len = sprintf(dataOut, "%d\r\n", i);
-            i++; // increment the index so we see a change in the text
-            /* IF A LETTER WAS RECEIVED, ECHO IT BACK SO THE USER CAN SEE IT */
-            if (appData.isReadComplete) {
-                USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
-                        &appData.writeTransferHandle,
-                        appData.readBuffer, 1,
-                        USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
-            }
-            /* ELSE SEND THE MESSAGE YOU WANTED TO SEND */
-            else {
+            
+            if(gathering_data){
+                I2C_read_multiple(reg_OUT_TEMP_L, IMU_raw_data, 14);
+                int i;
+                for(i = 0; i<7; i++){
+                    IMU_data[i] = (IMU_raw_data[2*i+1] << 8) | IMU_raw_data[2*i];
+                }
+                len = sprintf(dataOut, "%d %d %d %d %d %d %d\r\n", data_counter,
+                        IMU_data[1], IMU_data[2], IMU_data[3], IMU_data[4], IMU_data[5], IMU_data[6]);
                 USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
                         &appData.writeTransferHandle, dataOut, len,
                         USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
-                startTime = _CP0_GET_COUNT(); // reset the timer for acurate delays
+                data_counter++;
+                if(data_counter>99){
+                    data_counter = 0;
+                    gathering_data = 0;
+                }
+            }
+            else{
+                USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
+                        &appData.writeTransferHandle, "", 1,
+                        USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
+            }
+            
+            /* THIS IS WHERE YOU CAN READ YOUR IMU, PRINT TO THE LCD, ETC */
+            
+            /* IF A LETTER WAS RECEIVED, ECHO IT BACK SO THE USER CAN SEE IT */
+            /* turn off echo */
+            if (appData.isReadComplete) {
+                /* USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
+                        &appData.writeTransferHandle,
+                        appData.readBuffer, 1,
+                        USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE); */
+            }
+            else {
+            //*/
+                
+            startTime = _CP0_GET_COUNT(); // reset the timer for acurate delays
             }
             break;
 
