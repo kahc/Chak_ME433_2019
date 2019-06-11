@@ -65,7 +65,13 @@ char IMU_raw_data[14];
 signed short IMU_data[7];
 int gathering_data = 0;
 int data_counter = 0;
-signed short data_points[7][100];
+signed short MAF;
+signed short MAF_buffer[4] = {0, 0, 0, 0};
+int MAF_counter = 0;
+signed short IIR;
+int IIR_A = .5;
+int IIR_B = .5;
+
 
 // *****************************************************************************
 /* Application Data
@@ -340,7 +346,6 @@ void APP_Initialize(void) {
     ANSELA = 0;
     ANSELB = 0;
     init_IMU();
-    
 
     startTime = _CP0_GET_COUNT();
 }
@@ -405,6 +410,7 @@ void APP_Tasks(void) {
                         THAT WAS SENT FROM THE COMPUTER */
                 if(appData.readBuffer[0] == 'r'){
                     gathering_data = 1;
+                    MAF_buffer[4] = {0, 0, 0, 0};
                 }
                         /* YOU COULD PUT AN IF STATEMENT HERE TO DETERMINE WHICH LETTER
                         WAS RECEIVED (USUALLY IT IS THE NULL CHARACTER BECAUSE NOTHING WAS
@@ -453,12 +459,25 @@ void APP_Tasks(void) {
             AND REMEMBER THE NUMBER OF CHARACTERS IN len */
             
             if(gathering_data){
+                // read and process raw IMU data
                 I2C_read_multiple(reg_OUT_TEMP_L, IMU_raw_data, 14);
                 int i;
                 for(i = 0; i<7; i++){
                     IMU_data[i] = (IMU_raw_data[2*i+1] << 8) | IMU_raw_data[2*i];
                 }
-                len = sprintf(dataOut, "%d, %d\r\n", data_counter, IMU_data[3]);
+                
+                // MAF filter
+                MAF_buffer[MAF_counter] = IMU_data[3];
+                MAF_counter++;
+                if(MAF_counter>3){
+                    MAF_counter = 0;
+                }
+                MAF = (MAF_buffer[0]+MAF_buffer[1]+MAF_buffer[2]+MAF_buffer[3])/4;
+                
+                // 
+                
+                // formatting as csv file
+                len = sprintf(dataOut, "%d %d %d\r\n", data_counter, IMU_data[3], MAF);
                 USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
                         &appData.writeTransferHandle, dataOut, len,
                         USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
