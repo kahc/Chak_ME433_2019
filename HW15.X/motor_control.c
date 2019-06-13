@@ -12,19 +12,7 @@ void motor_init(){
     
     TRISBbits.TRISB3 = 0;
     
-    // timer for ISR
-	T3CONbits.TCKPS = 0;		// prescaler 1
-	PR3 = 47999;				// 48Mhz/(47999+1) = 100Hz
-	TMR3 = 0;
-	T3CONbits.ON = 1;
-
-	// ISR setup
-	IPC3bits.T3IP = 5;
-	IPC3bits.T3IS = 0;
-	IFS0bits.T3IF = 0;
-	IEC0bits.T3IE = 1;
-
-	// timer and PWM setup
+    // timer and PWM setup
 	T2CONbits.TCKPS = 0;		// prescaler 1
 	PR2 = 2399;					// 48Mhz/2400 = 20kHz
 	TMR2 = 0;
@@ -34,6 +22,20 @@ void motor_init(){
  	OC1R = 0;
  	T2CONbits.ON = 1;
   	OC1CONbits.ON = 1;
+    
+    // timer for ISR
+	T3CONbits.TCKPS = 0b100;		// prescaler 16
+	PR3 = 29999;				// 48Mhz/(16*(29999+1)) = 100Hz
+	TMR3 = 0;
+	T3CONbits.ON = 1;
+
+	// ISR setup
+	IPC3bits.T3IP = 5;
+	IPC3bits.T3IS = 0;
+	IFS0bits.T3IF = 0;
+	IEC0bits.T3IE = 1;
+
+
     
 }
 
