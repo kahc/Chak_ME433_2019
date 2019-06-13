@@ -10,20 +10,30 @@ void motor_init(){
     TRISAbits.TRISA10 = 0; // DIR1
     DIR1 = 1;
     
-    TRISBbits.TRISB3 = 0;
+    // OC1 is B15, goes with DIR1
+    RPB15Rbits.RPB15R = 0b0101;
+    // OC4 is A4, goes with DIR2
+    RPA4Rbits.RPA4R = 0b0101;
     
-    // timer and PWM setup
+    // setup Timer 2 for OC1
 	T2CONbits.TCKPS = 0;		// prescaler 1
 	PR2 = 2399;					// 48Mhz/2400 = 20kHz
 	TMR2 = 0;
-	OC1CONbits.OCTSEL = 1;
+	OC1CONbits.OCTSEL = 0;
 	OC1CONbits.OCM = 0b110;
-	OC1RS = 1199;
+	OC1RS = 0;
  	OC1R = 0;
  	T2CONbits.ON = 1;
   	OC1CONbits.ON = 1;
     
-    // timer for ISR
+    // setup OC4 with Timer 2
+    OC4CONbits.OCTSEL = 0;
+	OC4CONbits.OCM = 0b110;
+	OC4RS = 0;
+ 	OC4R = 0;
+  	OC4CONbits.ON = 1;
+    
+    // setup Timer 3 for ISR
 	T3CONbits.TCKPS = 0b100;		// prescaler 16
 	PR3 = 29999;				// 48Mhz/(16*(29999+1)) = 100Hz
 	TMR3 = 0;
@@ -52,7 +62,7 @@ IFS0bits.T3IF = 0;
     counter++;
 // set the duty cycle and direction pin
 
-    
-    LATBbits.LATB3 = !LATBbits.LATB3;
+    OC1RS = counter*20;
+    OC4RS = 500;
 
 }

@@ -24,9 +24,7 @@ void startup() {
     ANSELB = 0;
     TRISBbits.TRISB4 = 1; // USER
     
-    // OC1 is B15, goes with DIR1
-    
-    // OC4 is A4, goes with DIR2
+
     
     // LCD uses SPI1: A0 is SDO, A1 is SDI, B5 is CST, B14 is SCK1, A9 is DC, B7 is CS
     
