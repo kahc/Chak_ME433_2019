@@ -33,7 +33,7 @@ void __ISR(_TIMER_4_VECTOR, IPL5SOFT) motor_control(void) {
         OC4RS = 0;
     }
     
-    if(_CP0_GET_COUNT() > (48000000/2/6)){
+    if(_CP0_GET_COUNT() > (48000000/2/7)){
         got_image_recently = 0;
     }
 }
@@ -242,7 +242,7 @@ int main() {
         // if com is more than c/2/2, then slow down right motor, full speed left motor
         // things to play with: the slope of the line, the value that determines when the motor is not full speed
         float abs_e = abs(c/2/2-com)/(float)(c/2/2);
-        max_OC = 1600*(1-abs_e)+499;
+        max_OC = 2000*(1-abs_e)+399;
         
         if (com < c/2/2){
             e = (c/2/2 - com)/(float)(c/2/2);
